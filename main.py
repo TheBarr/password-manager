@@ -1,8 +1,18 @@
 from tkinter import *
 
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+def save_data():
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
+    with open("data.txt", 'a') as f:
+        f.write(f"{website} | {email} | {password} \n")
+        website_entry.delete(0, END)
+        password_entry.delete(0, END)
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -17,24 +27,30 @@ canvas.grid(column=1, row=0)
 # Labels
 website_label = Label(text="Website:")
 website_label.grid(column=0, row=1)
-user_data_label = Label(text="Email/Username:")
-user_data_label.grid(column=0, row=2)
+
+email_label = Label(text="Email/Username:")
+email_label.grid(column=0, row=2)
+
 password_label = Label(text="Password:")
 password_label.grid(column=0, row=3)
 
 # Entries
 website_entry = Entry(width=50)
 website_entry.grid(column=1, row=1, columnspan=2)
-user_entry = Entry(width=50)
-user_entry.grid(column=1, row=2, columnspan=2)
+website_entry.focus()
+
+email_entry = Entry(width=50)
+email_entry.grid(column=1, row=2, columnspan=2)
+email_entry.insert(0, "name@mail.com")
+
 password_entry = Entry(width=32)
 password_entry.grid(column=1, row=3)
 
 # Buttons
 generate_button = Button(text="Generate Password", width=14)
 generate_button.grid(column=2, row=3)
-add_button = Button(text="Add", width=43)
-add_button.grid(column=1, row=4, columnspan=2)
 
+add_button = Button(text="Add", width=43, command=save_data)
+add_button.grid(column=1, row=4, columnspan=2)
 
 window.mainloop()

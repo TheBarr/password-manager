@@ -27,6 +27,22 @@ def generate_password():
     pyperclip.copy(password)
 
 
+# ---------------------------- Find password ------------------------------- #
+def find_data():
+    try:
+        with open("data.json", 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        messagebox.showerror(title="Data file error", message="No data file found")
+    else:
+        user_data = website_entry.get()
+        if user_data in data:
+            messagebox.showinfo(title=f"Data for {user_data}",
+                                message=f"Email: {data[user_data]['email']}\nPassword: {data[user_data]['password']}")
+        else:
+            messagebox.showerror(title="Website Error", message="No details for the website exists")
+
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_data():
     website = website_entry.get()
@@ -56,6 +72,7 @@ def save_data():
             website_entry.delete(0, END)
             password_entry.delete(0, END)
 
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -69,26 +86,33 @@ canvas.grid(column=1, row=0)
 # Labels
 website_label = Label(text="Website:")
 website_label.grid(column=0, row=1)
+
 email_label = Label(text="Email/Username:")
 email_label.grid(column=0, row=2)
+
 password_label = Label(text="Password:")
 password_label.grid(column=0, row=3)
 
 # Entries
-website_entry = Entry(width=50)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = Entry(width=32)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
 
 email_entry = Entry(width=50)
 email_entry.grid(column=1, row=2, columnspan=2)
 email_entry.insert(0, "bartek@gmail.com")
+
 password_entry = Entry(width=32)
 password_entry.grid(column=1, row=3)
 
 # Buttons
 generate_button = Button(text="Generate Password", width=14, command=generate_password)
 generate_button.grid(column=2, row=3)
+
 add_button = Button(text="Add", width=43, command=save_data)
 add_button.grid(column=1, row=4, columnspan=2)
+
+search_button = Button(text="Search", width=14, command=find_data)
+search_button.grid(column=2, row=1)
 
 window.mainloop()

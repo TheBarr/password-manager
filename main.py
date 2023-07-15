@@ -35,12 +35,13 @@ def find_data():
     except FileNotFoundError:
         messagebox.showerror(title="Data file error", message="No data file found")
     else:
-        user_data = website_entry.get()
-        if user_data in data:
-            messagebox.showinfo(title=f"Data for {user_data}",
-                                message=f"Email: {data[user_data]['email']}\nPassword: {data[user_data]['password']}")
+        website = website_entry.get()
+        if website in data:
+            messagebox.showinfo(title=f"Data for {website}",
+                                message=f"Email: {data[website]['email']}\nPassword: {data[website]['password']}\n\nPassword is copied to your clipboard")
+            pyperclip.copy(data[website]['password'])
         else:
-            messagebox.showerror(title="Website Error", message="No details for the website exists")
+            messagebox.showerror(title="Website Error", message=f"No details for the website '{website}' exists")
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
